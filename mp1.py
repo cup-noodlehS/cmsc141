@@ -154,6 +154,19 @@ def validate_variable_declaration(declaration):
         
     return True
 
+def validate_funciton_declaration(declaration):
+    function_types = ['int', 'float', 'char', 'double', 'void']
+    if declaration[0] not in function_types or not valid_variable_name(declaration[1]):
+        return False
+    parameters = declaration[2].strip('();').split(',')
+    if not parameters[0]:  # For functions without parameters
+        return True
+    for param in parameters:
+        type_name = param.split()
+        if len(type_name) != 2 or type_name[0] not in function_types or not valid_variable_name(type_name[1]):
+            return False
+    return True
+                
 
 test_count = -1
 output = []
@@ -172,14 +185,11 @@ for i in range(test_count):
             output.append("VALID VARIABLE DECLARATION")
         else:
             output.append("INVALID VARIABLE DECLARATION")
-    # elif type == 2:
-    #     function_types = ['int', 'float', 'char', 'double', 'void']
-    #     print(declaration)
-        
-    #     if declaration[0] in function_types:
-    #         declaration.pop(0)
-    #     else:
-    #         print("INVALID VARIABLE DECLARATION")
+    elif type == 2:
+        if (validate_funciton_declaration(declaration)):
+            output.append("VALID FUNCTION DECLARATION")
+        else:
+            output.append("INVALID FUNCTION DECLARATION")
 
 for i in output:
     print(i)
