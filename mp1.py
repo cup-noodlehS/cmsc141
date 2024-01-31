@@ -1,16 +1,18 @@
-# I declare, upon my honor, that I did this machine problem assignment by myself
-# using references from the lecture notes and MPs.
+"""
+I declare, upon my honor, that I did this machine problem assignment by myself
+using references from the lecture notes and MPs.
 
-# I declare, upon my honor, that I did this machine problem assignment by myself
-# using online resources from the following (please site the online sources).
-# Further, my solution is not a copy from the aforementioned sources.
+I declare, upon my honor, that I did this machine problem assignment by myself
+using online resources from the following (please site the online sources).
+Further, my solution is not a copy from the aforementioned sources.
 
-# I declare, upon my honor, that I did this machine problem assignment as a
-# collaboration with (enumerate your collaborators, maximum of 3 other collaborators).
-# Further, my solution is not a copy of any of my collaborators' solutions.
+I declare, upon my honor, that I did this machine problem assignment as a
+collaboration with (enumerate your collaborators, maximum of 3 other collaborators).
+Further, my solution is not a copy of any of my collaborators' solutions.
+"""
 
 def valid_variable_name(name):
-    if not name or not name[0].isalpha() and name[0] != "_":  # Check if name is empty or does not start with a letter or "_"
+    if not name or not name[0].isalpha() and name[0] != "_":
         return False
     if name in ["int", "char", "float", "double", "void"]:
         return False
