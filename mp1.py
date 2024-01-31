@@ -3,13 +3,35 @@ I declare, upon my honor, that I did this machine problem assignment by myself
 using references from the lecture notes and MPs.
 
 I declare, upon my honor, that I did this machine problem assignment by myself
-using online resources from the following (please site the online sources).
+using online resources from the following:
+- https://www.w3schools.com/python/
+
 Further, my solution is not a copy from the aforementioned sources.
 
 I declare, upon my honor, that I did this machine problem assignment as a
-collaboration with (enumerate your collaborators, maximum of 3 other collaborators).
+collaboration with Arwin Delasan.
 Further, my solution is not a copy of any of my collaborators' solutions.
 """
+
+def split_input(input_string):
+    punctuation = set("(),;")
+    output = []
+    current_word = ""
+    
+    for char in input_string:
+        if char.isalnum() or char == "-":
+            current_word += char
+        elif char in punctuation or char.isspace():
+            if current_word:
+                output.append(current_word)
+                current_word = ""
+            if char in punctuation:
+                output.append(char)
+
+    if current_word:
+        output.append(current_word)
+    
+    return output
 
 def valid_variable_name(name):
     if not name or not name[0].isalpha() and name[0] != "_":
@@ -157,10 +179,78 @@ def validate_variable_declaration(declaration):
     return True
 
 def validate_funciton_declaration(declaration):
+    declaration = split_input(declaration)
     function_types = ['int', 'float', 'char', 'double', 'void']
     
-    # contiue this function
+    stage = 0
+    for item in declaration:
+        if stage == 0:
+            if item in function_types:
+                stage = 1
+                continue
+            else:
+                return False
+        elif stage == 1:
+            if item not in function_types and item != ',' and (item[0] == '_' or item[0].isalpha()):
+                if valid_variable_name(item):
+                    stage = 2
+                    continue
+                else:
+                    return False
+            else:
+                return False
+        elif stage == 2:
+            if item == '(':
+                stage = 3
+                continue
+            else:
+                return False
+        elif stage == 3:
+            if item in function_types:
+                stage = 4
+                continue
+            elif item == ')':
+                stage = 5
+                continue
+            else:
+                return False
+        elif stage == 4:
+            if item == ',':
+                stage = 3
+                continue
+            elif item == ')':
+                stage = 5
+                continue
+            elif item not in function_types and (item[0] == '_' or item[0].isalpha()):
+                if valid_variable_name(item):
+                    stage = 4
+                    continue
+                else:
+                    return False
+            else:
+                return False
+        elif stage == 5:
+            if item == ';':
+                stage = 6
+                continue
+            elif item == ',':
+                stage = 1
+                continue
+            else:
+                return False
+        elif stage == 6:
+            if item != ' ':
+                if item in function_types:
+                    stage = 1
+                    continue
+                else:
+                    return False
+            elif item == ' ':
+                return True
+            else:
+                return False
                 
+    return stage == 6
 
 test_count = -1
 output = []
